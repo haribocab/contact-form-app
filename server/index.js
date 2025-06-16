@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/test', require('./routes/test'));
+app.use('/api', require('./routes/login'));
+app.use('/api', require('./routes/register'));
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
