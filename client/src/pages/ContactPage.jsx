@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ContactPage() {
   const [name, setName] = useState('');
   const [result, setResult] = useState(null);
   const [items, setItems] = useState([]);
 
+  const token = localStorage.getItem('token');
+   
   const fetchItems = async () => {
-    const res = await fetch('http://localhost:4000/api/test');
+    const res = await fetch(`${apiUrl}/test`, {
+      headers: {
+          'Authorization': `Bearer ${token}`, // ←ここでトークンをセット
+        },
+    });
     const data = await res.json();
     setItems(data);
   };
@@ -18,9 +25,12 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('http://localhost:4000/api/test', {
+    const res = await fetch(`${apiUrl}/test`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,  // ←ここにもトークンをセット
+      },
       body: JSON.stringify({ name }),
     });
 
