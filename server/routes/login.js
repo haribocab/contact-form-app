@@ -21,7 +21,13 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({ error: 'Password failed.' });
   }
 
-  res.json({ message: 'Successful login!', user: user.username });
+  const token = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }  // トークンの有効期限（1時間）
+  );
+
+  res.json({ message: 'Successful login!', user: user.username, token: token });
 });
 
 
