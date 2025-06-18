@@ -20,7 +20,7 @@ export default function ContactPage() {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
