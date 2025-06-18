@@ -33,7 +33,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>ログイン</h2>
       <form onSubmit={handleLogin}>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="ユーザー名" required />

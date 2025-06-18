@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
+import LogoutButton from '../components/LogoutButton';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -69,6 +70,8 @@ export default function ContactPage() {
           </li>
         ))}
       </ul>
+
+        <LogoutButton />
     </div>
   );
 }
