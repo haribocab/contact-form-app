@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from './../redux/authSlice';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,10 +24,11 @@ export default function Login() {
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem('token', data.token); // JWTトークンを保存
-      navigate('/contact'); // ログイン後にコンタクトページへ
+      dispatch(loginSuccess({ token: data.token, user: data.user }));
+      localStorage.setItem('token', data.token);
+      navigate('/contact');
     } else {
-      setError(data.error || 'ログインに失敗しました');
+      setError(data.error || 'Login failled.');
     }
   };
 
