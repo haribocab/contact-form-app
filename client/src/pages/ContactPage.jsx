@@ -1,12 +1,17 @@
 // src/pages/ContactPage.jsx
 import { useState, useEffect, useCallback } from 'react';
 import { PaperAirplaneIcon, InboxIcon } from '@heroicons/react/24/outline';
-import LogoutButton from '../components/LogoutButton';
 import AppLayout from '../layouts/AppLayout';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ContactPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [resultMessage, setResultMessage] = useState('');
   const [items, setItems] = useState([]);
@@ -78,13 +83,21 @@ export default function ContactPage() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(logout());
+    navigate('/login');
+  };
+
   return (
     <AppLayout>
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-semibold text-gray-800">Contact Entries</h1>
-          <LogoutButton />
+          <button onClick={handleLogout}>
+            Logout
+          </button>
         </div>
 
         {/* Submission form */}
