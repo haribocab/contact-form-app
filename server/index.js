@@ -14,7 +14,7 @@ const REACT_ORIGIN =  process.env.REACT_ORIGIN || 'http://localhost:5173';
 // Middlewares
 app.use(cors({
   origin: REACT_ORIGIN, // React の URL
-  methods: ['GET', 'POST'],        // 必要に応じて追加
+  methods: ['GET', 'POST', 'DELETE'],        // 必要に応じて追加
   credentials: true                // Cookie を使う場合のみ必要
 }));
 

@@ -1,6 +1,6 @@
 // src/pages/ContactPage.jsx
 import { useState, useEffect, useCallback } from 'react';
-import { PaperAirplaneIcon, InboxIcon } from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon, InboxIcon, TrashIcon } from '@heroicons/react/24/outline';
 import AppLayout from '../layouts/AppLayout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
@@ -89,6 +89,28 @@ export default function ContactPage() {
     navigate('/login');
   };
 
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this entry?')) return;
+    setError('');
+    try {
+      const res = await fetch(`${apiUrl}/entries/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Delete error: ${res.status}`);
+      }
+      // optional: レスポンスメッセージを取得
+      const data = await res.json();
+      setResultMessage(data.message);
+      fetchItems();
+    } catch (err) {
+      console.error(err);
+      setError('Deletion failed.');
+    }
+  };
+
   return (
     <AppLayout>
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
@@ -169,10 +191,18 @@ export default function ContactPage() {
             <ul className="max-h-64 overflow-auto divide-y divide-gray-200">
               {items.map((item) => (
                 <li key={item._id} className="py-2 flex justify-between items-center">
-                  <span className="text-gray-800">{item.name}</span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(item.createdAt).toLocaleString()}
-                  </span>
+                  <div>
+                    <span className="text-gray-800">{item.name}</span>
+                    <span className="ml-2 text-sm text-gray-500">
+                      ({new Date(item.createdAt).toLocaleString()})
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="text-red-500 hover:text-red-700 p-1 rounded transition"
+                  >
+                    <TrashIcon className="w-5 h-5" />
+                  </button>
                 </li>
               ))}
             </ul>

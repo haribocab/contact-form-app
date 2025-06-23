@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const testSchema = new mongoose.Schema({
+const entrySchema = new mongoose.Schema({
   name: String,
   createdAt: {
     type: Date,
@@ -8,4 +8,4 @@ const testSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Entry', testSchema);
+module.exports = mongoose.model('Entry', entrySchema);
