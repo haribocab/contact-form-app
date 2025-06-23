@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Test = require('../models/Test');
+const Entry = require('../models/Entry');
 const authenticateToken = require('../middlewares/auth')
 
-// POST /api/test
+// POST /api/entries
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    const test = new Test({ name: req.body.name });
+    const test = new Entry({ name: req.body.name });
     const saved = await test.save();
     res.status(201).json(saved);
   } catch (err) {
@@ -16,7 +16,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const data = await Test.find().sort({ createdAt: -1 });
+    const data = await Entry.find().sort({ createdAt: -1 });
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });

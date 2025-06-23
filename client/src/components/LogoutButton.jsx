@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logout } from './../redux/authSlice';
+import { logout } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function LogoutButton() {
@@ -7,13 +7,13 @@ export default function LogoutButton() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     dispatch(logout());
     navigate('/login');
   };
 
   return (
-    <button
-     onClick={handleLogout}>
+    <button onClick={handleLogout}>
       Logout
     </button>
   );

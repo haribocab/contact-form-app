@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
   res.send('API is working!');
 });
 
-app.use('/api/test', require('./routes/test'));
+app.use('/api/entries', require('./routes/entries'));
 app.use('/api', require('./routes/login'));
 app.use('/api', require('./routes/register'));
 
