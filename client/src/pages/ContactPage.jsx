@@ -98,7 +98,6 @@ export default function ContactPage() {
     setShowModal(true);
   };
 
-
   const confirmDelete = async () => {
     setShowModal(false);
     try {
@@ -110,7 +109,6 @@ export default function ContactPage() {
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.error || `Delete error: ${res.status}`);
       }
-      // optional: レスポンスメッセージを取得
       const data = await res.json();
       setResultMessage(data.message);
       fetchItems();
