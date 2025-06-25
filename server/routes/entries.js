@@ -6,7 +6,7 @@ const authenticateToken = require('../middlewares/auth')
 // POST /api/entries
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    const entry = new Entry({ message: req.body.message, author: req.user.userid });
+    const entry = new Entry({ content: req.body.content, author: req.user.userid });
     const saved = await entry.save();
     res.status(201).json(saved);
   } catch (err) {

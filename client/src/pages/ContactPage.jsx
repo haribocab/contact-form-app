@@ -19,7 +19,7 @@ export default function ContactPage() {
   const [showModal, setShowModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const [message, setMessage] = useState('');
+  const [content, setContent] = useState('');
   const [resultMessage, setResultMessage] = useState('');
   const [items, setItems] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -60,7 +60,7 @@ export default function ContactPage() {
     e.preventDefault();
     setResultMessage('');
     setError('');
-    if (!message.trim()) {
+    if (!content.trim()) {
       setError('Message cannot be empty.');
       return;
     }
@@ -72,15 +72,15 @@ export default function ContactPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ message: message.trim() }),
+        body: JSON.stringify({ content: content.trim() }),
       });
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.error || `Submit error: ${res.status}`);
       }
       const data = await res.json();
-      setResultMessage(`Submitted: ${data.message}`);
-      setMessage('');
+      setResultMessage(`Submitted: ${data.content}`);
+      setContent('');
       fetchItems();
     } catch (err) {
       console.error(err);
@@ -150,8 +150,8 @@ export default function ContactPage() {
               <input
                 type="text"
                 placeholder="Enter name"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 disabled={submitting}
                 className={`w-full pl-10 pr-4 py-2 rounded-l-md border 
                   focus:outline-none focus:ring-2 focus:ring-indigo-500
@@ -202,7 +202,7 @@ export default function ContactPage() {
               {items.map((item) => (
                 <li key={item._id} className="py-2 flex justify-between items-center">
                   <div>
-                    <span className="text-gray-800">{item.message}</span>
+                    <span className="text-gray-800">{item.content}</span>
                     <span className="ml-2 text-sm text-gray-500">
                       ({new Date(item.createdAt).toLocaleString()})
                     </span>

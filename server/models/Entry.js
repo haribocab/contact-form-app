@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const entrySchema = new mongoose.Schema({
-  message: String,
+  content: String,
   author: String,
   createdAt: {
     type: Date,
