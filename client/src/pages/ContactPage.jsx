@@ -6,10 +6,13 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from '../components/ConfirmModal'
+import useAuthCheck from '../hooks/useAuthCheck';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ContactPage() {
+  useAuthCheck();
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
