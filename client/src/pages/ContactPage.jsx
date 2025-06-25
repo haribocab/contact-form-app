@@ -203,6 +203,7 @@ export default function ContactPage() {
                 <li key={item._id} className="py-2 flex justify-between items-center">
                   <div>
                     <span className="text-gray-800">{item.content}</span>
+                    <span className="ml-2 text-sm text-gray-500">{item.author.username}</span>
                     <span className="ml-2 text-sm text-gray-500">
                       ({new Date(item.createdAt).toLocaleString()})
                     </span>

@@ -17,7 +17,7 @@ router.post('/', authenticateToken, async (req, res) => {
 // GET  /api/entries 
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const data = await Entry.find().sort({ createdAt: -1 });
+    const data = await Entry.find().populate('author', 'username').sort({ createdAt: -1 });
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
@@ -45,7 +45,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 router.get('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Entry.findById(id);
+    const data = await Entry.findById(id).populate('author', 'username');
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
