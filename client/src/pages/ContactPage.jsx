@@ -5,12 +5,16 @@ import AppLayout from '../layouts/AppLayout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
+import ConfirmModal from '../components/ConfirmModal'
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ContactPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const [name, setName] = useState('');
   const [resultMessage, setResultMessage] = useState('');
@@ -89,11 +93,16 @@ export default function ContactPage() {
     navigate('/login');
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this entry?')) return;
-    setError('');
+  const openModal = (id) => {
+    setDeleteId(id);
+    setShowModal(true);
+  };
+
+
+  const confirmDelete = async () => {
+    setShowModal(false);
     try {
-      const res = await fetch(`${apiUrl}/entries/${id}`, {
+      const res = await fetch(`${apiUrl}/entries/${deleteId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -198,7 +207,7 @@ export default function ContactPage() {
                     </span>
                   </div>
                   <button
-                    onClick={() => handleDelete(item._id)}
+                    onClick={() => openModal(item._id)}
                     className="text-red-500 hover:text-red-700 p-1 rounded transition"
                   >
                     <TrashIcon className="w-5 h-5" />
@@ -209,6 +218,14 @@ export default function ContactPage() {
           )}
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+        onConfirm={confirmDelete}
+      >
+        <h2>Are you sure you want to delete this entry?</h2>
+      </ConfirmModal>
     </AppLayout>
   );
 }

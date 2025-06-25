@@ -4,6 +4,9 @@ import LoginPge from './pages/LoginPage';
 import ContactPage from './pages/ContactPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import HomePage from './pages/HomePage';
+import ReactModal from 'react-modal';
+
+ReactModal.setAppElement('#root');
 
 export default function App() {
   return (
