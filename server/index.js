@@ -29,8 +29,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/entries', require('./routes/entries'));
-app.use('/api', require('./routes/login'));
-app.use('/api', require('./routes/register'));
+app.use('/api/login', require('./routes/login'));
+app.use('/api/register', require('./routes/register'));
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
