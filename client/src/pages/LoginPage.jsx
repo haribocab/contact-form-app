@@ -40,7 +40,7 @@ export default function LoginPage() {
       if (res.ok && data.token) {
         dispatch(loginSuccess({ token: data.token, user: data.user }));
         localStorage.setItem('token', data.token);
-        navigate('/contact');
+        navigate('/home');
       } else {
         setErrorMessage(data.error || 'Login failed. Please check your credentials.');
       }

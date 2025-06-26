@@ -1,4 +1,3 @@
-// src/pages/ContactPage.jsx
 import { useState, useEffect, useCallback } from 'react';
 import { PaperAirplaneIcon, InboxIcon, TrashIcon } from '@heroicons/react/24/outline';
 import AppLayout from '../layouts/AppLayout';
@@ -10,7 +9,7 @@ import useAuthCheck from '../hooks/useAuthCheck';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function ContactPage() {
+export default function UserHomePage() {
   useAuthCheck();
   
   const dispatch = useDispatch();
@@ -126,7 +125,7 @@ export default function ContactPage() {
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Contact Entries</h1>
+          <h1 className="text-xl font-semibold text-gray-800">Entries</h1>
           <button onClick={handleLogout}>
             Logout
           </button>
