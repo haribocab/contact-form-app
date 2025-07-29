@@ -68,6 +68,10 @@ export default function UserHomePage() {
       setItems((prevItems) => [newEntry, ...prevItems]);
     });
 
+    socketRef.current.on('entryDeleted', (entryId) => {
+      setItems((prevItems) => prevItems.filter(item => item._id !== entryId));
+    });
+
     // コンポーネントアンマウント時に切断
     return () => {
       if (socketRef.current) {
@@ -136,6 +140,7 @@ export default function UserHomePage() {
       const data = await res.json();
       setResultMessage(data.message);
       fetchItems();
+      socketRef.current.emit('entryDeleted', deleteId);
     } catch (err) {
       console.error(err);
       setError('Deletion failed.');

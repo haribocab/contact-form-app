@@ -87,6 +87,10 @@ io.on('connection', (socket) => {
     // 全ての接続クライアントに通知
     io.emit('entryCreated', entryData);
   });
+
+  socket.on('entryDeleted', (entryId) => {
+    io.emit('entryDeleted', entryId); // 全ユーザーに削除IDを送信
+  });
 });
 
 // server.listenで起動（app.listenは使わない）
