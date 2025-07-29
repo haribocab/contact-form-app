@@ -147,7 +147,7 @@ export default function UserHomePage() {
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Contact Entries</h1>
+          <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
           <button onClick={handleLogout}>
             Logout
           </button>
