@@ -65,7 +65,7 @@ export default function UserHomePage() {
 
     // 新しいメッセージが来たらitemsを更新
     socketRef.current.on('newEntry', (newEntry) => {
-      setItems((prevItems) => [...prevItems, newEntry]);
+      setItems((prevItems) => [newEntry, ...prevItems]);
     });
 
     // コンポーネントアンマウント時に切断
