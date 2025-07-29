@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { io } from 'socket.io-client';
 import { PaperAirplaneIcon, InboxIcon, TrashIcon } from '@heroicons/react/24/outline';
 import AppLayout from '../layouts/AppLayout';
 import { useDispatch } from 'react-redux';
@@ -8,6 +9,7 @@ import ConfirmModal from '../components/ConfirmModal'
 import useAuthCheck from '../hooks/useAuthCheck';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const socketBaseUrl = import.meta.env.VITE_API_BASE;
 
 export default function UserHomePage() {
   useAuthCheck();
@@ -26,6 +28,8 @@ export default function UserHomePage() {
   const [error, setError] = useState('');
 
   const token = localStorage.getItem('token');
+
+  const socketRef = useRef(null);
 
   // fetchItems wrapped in useCallback so it can be used in useEffect safely
   const fetchItems = useCallback(async () => {
@@ -53,7 +57,24 @@ export default function UserHomePage() {
 
   useEffect(() => {
     fetchItems();
-  }, [fetchItems]);
+
+    // Socket.IO接続開始
+    socketRef.current = io(socketBaseUrl, {
+      auth: { token },  // トークン認証したい場合
+    });
+
+    // 新しいメッセージが来たらitemsを更新
+    socketRef.current.on('newEntry', (newEntry) => {
+      setItems((prevItems) => [...prevItems, newEntry]);
+    });
+
+    // コンポーネントアンマウント時に切断
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, [fetchItems, apiUrl, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +101,8 @@ export default function UserHomePage() {
       const data = await res.json();
       setResultMessage(`Submitted: ${data.content}`);
       setContent('');
-      fetchItems();
+      // fetchItems();
+      socketRef.current.emit('newEntry', data); 
     } catch (err) {
       console.error(err);
       setError('Submission failed.');
@@ -125,7 +147,7 @@ export default function UserHomePage() {
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Entries</h1>
+          <h1 className="text-xl font-semibold text-gray-800">Contact Entries</h1>
           <button onClick={handleLogout}>
             Logout
           </button>
