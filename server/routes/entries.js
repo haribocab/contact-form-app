@@ -7,13 +7,17 @@ module.exports = (io) => {
   // POST /api/entries
   router.post('/', authenticateToken, async (req, res) => {
     try {
-      const newEntry = new Entry({ content: req.body.content, author: req.user.userid });
+      const newEntry = new Entry({ 
+        content: req.body.content,
+        author: req.user.userid
+      });
       const saved = await newEntry.save();
+      const populated = await saved.populate('author', 'username');
 
       // 新しいエントリが追加されたことをSocket.IOで通知
-      io.emit('newEntry', saved);
+      io.emit('newEntry', populated);
 
-      res.status(201).json(saved);
+      res.status(201).json(populated);
     } catch (err) {
       res.status(500).json({ error: 'save failed' });
     }

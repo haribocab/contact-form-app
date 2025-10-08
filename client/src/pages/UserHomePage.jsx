@@ -153,6 +153,11 @@ export default function UserHomePage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
+        </div>
+
+
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
           <button onClick={handleLogout}>
             Logout
           </button>
@@ -175,7 +180,7 @@ export default function UserHomePage() {
               <InboxIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Enter name"
+                placeholder="Enter Message"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 disabled={submitting}
