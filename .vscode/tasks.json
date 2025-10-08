@@ -18,6 +18,15 @@
         "cwd": "${workspaceFolder}/server"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Start Api",
+      "type": "shell",
+      "command": "php artisan serve",
+      "options": {
+        "cwd": "${workspaceFolder}/api"
+      },
+      "problemMatcher": []
     }
   ]
 }

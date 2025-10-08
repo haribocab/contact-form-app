@@ -231,12 +231,12 @@ export default function UserHomePage() {
           ) : (
             <ul className="max-h-64 overflow-auto divide-y divide-gray-200">
               {items.map((item) => (
-                <li key={item._id} className="py-2 flex justify-between items-center">
+                <li key={item.id} className="py-2 flex justify-between items-center">
                   <div>
                     <span className="text-gray-800">{item.content}</span>
-                    <span className="ml-2 text-sm text-gray-500">{item.author.username}</span>
+                    <span className="ml-2 text-sm text-gray-500">Id: {item.user_id}</span>
                     <span className="ml-2 text-sm text-gray-500">
-                      ({new Date(item.createdAt).toLocaleString()})
+                      ({new Date(item.created_at).toLocaleString()})
                     </span>
                   </div>
                   <button
