@@ -15,9 +15,10 @@ class EntryController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth('api')->user();
         $entry = Entry::create([
             'content' => $request->input('content'),
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
         ])->load('user:id,username');
 
         broadcast(new EntryCreated($entry))->toOthers();

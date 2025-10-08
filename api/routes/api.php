@@ -11,3 +11,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/entries', [EntryController::class, 'store']);
     Route::delete('/entries/{id}', [EntryController::class, 'destroy']);
 });
+
+
+Route::middleware(['auth:api'])->get('/me', function () {
+    $user = auth('api')->user();
+    return response()->json($user);
+});
