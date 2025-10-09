@@ -157,7 +157,7 @@ export default function UserHomePage() {
 
 
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
+          <h1 className="text-xl font-semibold text-gray-800">Hello</h1>
           <button onClick={handleLogout}>
             Logout
           </button>
