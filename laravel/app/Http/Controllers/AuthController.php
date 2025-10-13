@@ -27,18 +27,25 @@ class AuthController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+        $user = \App\Models\User::where('username', $credentials['username'])->first();
+
+        if (!$user) {
+            return response()->json(['debug' => 'User not found']);
         }
 
+        $passwordCheck = \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password);
+
+        if (!$passwordCheck) {
+            return response()->json(['debug' => 'Password does not match']);
+        }
+
+        $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+
         return response()->json([
-            'message' => 'Successful login!',
-            'user' => auth()->user()->username,
+            'message' => 'JWT generated',
             'token' => $token,
         ]);
-
     }
-    
 
     public function test(Request $request)
     {
