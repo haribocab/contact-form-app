@@ -38,10 +38,14 @@ class AuthController extends Controller
     //     ]);
     // }
 
-    public function login(Request $request)
+    public function test(Request $request)
     {
-        // 確認用にJWT発行を飛ばして、ただメッセージを返す
-        return response()->json(['message' => 'Login success.']);
+        return response()->json([
+            'message' => 'Test endpoint accessed successfully!',
+            'method' => $request->method(),
+            'headers' => $request->headers->all(),
+            'body' => $request->all(),
+        ]);
     }
 
 
