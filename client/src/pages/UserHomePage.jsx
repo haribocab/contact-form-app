@@ -240,7 +240,7 @@ export default function UserHomePage() {
                     </span>
                   </div>
                   <button
-                    onClick={() => openModal(item._id)}
+                    onClick={() => openModal(item.id)}
                     className="text-red-500 hover:text-red-700 p-1 rounded transition"
                   >
                     <TrashIcon className="w-5 h-5" />
