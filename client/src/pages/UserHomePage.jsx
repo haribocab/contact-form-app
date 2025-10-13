@@ -132,8 +132,8 @@ export default function UserHomePage() {
       const data = await res.json();
       setResultMessage(`Submitted: ${data.content}`);
       setContent('');
-      // fetchItems();
-      socketRef.current.emit('newEntry', data); 
+      fetchItems();
+      // socketRef.current.emit('newEntry', data);
     } catch (err) {
       console.error(err);
       setError('Submission failed.');
@@ -167,7 +167,7 @@ export default function UserHomePage() {
       const data = await res.json();
       setResultMessage(data.message);
       fetchItems();
-      socketRef.current.emit('entryDeleted', deleteId);
+      // socketRef.current.emit('entryDeleted', deleteId);
     } catch (err) {
       console.error(err);
       setError('Deletion failed.');
@@ -185,7 +185,7 @@ export default function UserHomePage() {
 
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-semibold text-gray-800">
-            Hello, {user.username}!
+            Hello, {user.username}
           </h1>
           
           <button onClick={handleLogout}>
