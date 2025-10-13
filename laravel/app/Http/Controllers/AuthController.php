@@ -41,10 +41,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // 確認用にJWT発行を飛ばして、ただメッセージを返す
-        return response()->json([
-            'message' => 'Login endpoint accessed successfully!',
-            'user_input' => $request->only('username', 'password')
-        ]);
+        return response()->json(['message' => 'Login success.']);
     }
 
 
