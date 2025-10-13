@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 export default function HomePage() {
     return (
         <AppLayout>
-            <div className="bg-gradient-to-br from-green-400 to-blue-500 flex flex-col items-center justify-center w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
-                <h1 className="text-white text-5xl font-extrabold mb-8 drop-shadow-lg">
+            <div className="bg-white flex flex-col items-center justify-center w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                <h1 className="text-dark text-5xl font-extrabold mb-8">
                     Messages App
                 </h1>
-                <p className="text-white text-lg mb-12 max-w-lg text-center drop-shadow-md">
+                <p className="text-dark text-lg mb-12 max-w-lg text-center">
                     Please login to access your chat board and manage your data securely.
                 </p>
                 <Link
                     to="/login"
-                    className="px-8 py-4 bg-white text-green-600 font-semibold rounded-lg shadow-lg hover:bg-green-100 transition"
+                    className="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-md transition disabled:opacity-50"
                 >
                     Go to Login
                 </Link>
