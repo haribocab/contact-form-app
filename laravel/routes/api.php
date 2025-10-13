@@ -6,7 +6,7 @@ use App\Http\Controllers\EntryController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/test', [AuthController::class, 'test']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/entries', [EntryController::class, 'index']);
