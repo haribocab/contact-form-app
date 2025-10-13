@@ -23,18 +23,29 @@ class AuthController extends Controller
         return response()->json(['message' => 'User is created.']);
     }
 
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->only('username', 'password');
+
+    //     if (!$token = JWTAuth::attempt($credentials)) {
+    //         return response()->json(['error' => 'Invalid credentials'], 401);
+    //     }
+
+    //     return response()->json([
+    //         'message' => 'Successful login!',
+    //         'user' => auth()->user()->username,
+    //         'token' => $token,
+    //     ]);
+    // }
+
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
-
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
-        }
-
+        // 確認用にJWT発行を飛ばして、ただメッセージを返す
         return response()->json([
-            'message' => 'Successful login!',
-            'user' => auth()->user()->username,
-            'token' => $token,
+            'message' => 'Login endpoint accessed successfully!',
+            'user_input' => $request->only('username', 'password')
         ]);
     }
+
+
 }

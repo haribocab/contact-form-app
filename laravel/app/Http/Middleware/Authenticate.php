@@ -13,6 +13,7 @@ class Authenticate extends Middleware
     {
         // APIリクエストの場合はJSONで401
         if ($request->expectsJson()) {
+            Log::warning('Unauthorized API access', ['url' => $request->fullUrl()]);
             abort(401, 'Unauthorized');
         }
 
