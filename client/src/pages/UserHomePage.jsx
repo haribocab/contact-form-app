@@ -27,9 +27,34 @@ export default function UserHomePage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
+  const [user, setUser] = useState('');
+
   const token = localStorage.getItem('token');
 
   const socketRef = useRef(null);
+
+  const fetchUser = useCallback(async () => {
+    if (!token) return;
+    setFetching(true);
+    setError('');
+    try {
+      const res = await fetch(`${apiUrl}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(`Fetch error: ${res.status}`);
+      }
+      const data = await res.json();
+      setUser(data);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to load items.');
+    } finally {
+      setFetching(false);
+    }
+  }, [apiUrl, token]);
 
   // fetchItems wrapped in useCallback so it can be used in useEffect safely
   const fetchItems = useCallback(async () => {
@@ -57,6 +82,8 @@ export default function UserHomePage() {
 
   useEffect(() => {
     fetchItems();
+
+    fetchUser();
 
     // Socket.IO接続開始
     socketRef.current = io(socketBaseUrl, {
@@ -151,13 +178,16 @@ export default function UserHomePage() {
     <AppLayout>
       <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-center mb-6">
           <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
         </div>
 
 
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Hello</h1>
+          <h1 className="text-xl font-semibold text-gray-800">
+            Hello, {user.username}!
+          </h1>
+          
           <button onClick={handleLogout}>
             Logout
           </button>
