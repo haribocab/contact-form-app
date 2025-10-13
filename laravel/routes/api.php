@@ -6,6 +6,15 @@ use App\Http\Controllers\EntryController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/test', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'message' => 'Test endpoint accessed successfully!',
+        'method' => $request->method(),
+        'headers' => $request->headers->all(),
+        'body' => $request->all(),
+    ]);
+});
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/entries', [EntryController::class, 'index']);
     Route::post('/entries', [EntryController::class, 'store']);
