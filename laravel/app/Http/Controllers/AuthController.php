@@ -36,6 +36,7 @@ class AuthController extends Controller
             'user' => auth()->user()->username,
             'token' => $token,
         ]);
+
     }
     
 
