@@ -259,22 +259,30 @@ export default function UserHomePage() {
           ) : items.length === 0 ? (
             <p className="text-center text-gray-500">No entries yet.</p>
           ) : (
-            <ul className="max-h-64 overflow-auto divide-y divide-gray-200">
+            <ul className="max-h-64 overflow-auto divide-y px-5">
               {items.map((item) => (
-                <li key={item.id} className="py-2 flex justify-between items-center">
+                <li key={item.id} className={`p-2 rounded-lg mb-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
                   <div>
                     <span className="text-gray-800">{item.content}</span>
-                    <span className="ml-2 text-sm text-gray-500">{item.user.username}</span>
-                    <span className="ml-2 text-sm text-gray-500">
-                      ({new Date(item.created_at).toLocaleString()})
-                    </span>
                   </div>
-                  <button
-                    onClick={() => openModal(item.id)}
-                    className="text-red-500 hover:text-red-700 p-1 rounded transition"
-                  >
-                    <TrashIcon className="w-5 h-5" />
-                  </button>
+                  <div className='flex justify-between items-center'>
+                    <div>
+                      <span className="text-sm text-gray-500">
+                        ({new Date(item.created_at).toLocaleString()})
+                      </span>
+                    </div>
+                    {item.user.username == user.username ? (
+                      <button
+                        onClick={() => openModal(item.id)}
+                        className="text-cyan-500 hover:text-cyan-700 p-1 rounded transition"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    ) : (
+                        <span className="text-sm text-gray-500">{item.user.username}</span>
+                    )}
+                  </div>
+        
                 </li>
               ))}
             </ul>
