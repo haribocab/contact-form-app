@@ -1,4 +1,4 @@
-import BackgroundImageUrl from '../images/background.jpg';
+import BackgroundImageUrl from '../images/background.webp';
 
 export default function AppLayout( {children} ) {
     return (
