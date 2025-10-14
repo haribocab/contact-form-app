@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { PaperAirplaneIcon, InboxIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, PaperAirplaneIcon, InboxIcon, TrashIcon } from '@heroicons/react/24/outline';
 import AppLayout from '../layouts/AppLayout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
@@ -176,25 +176,59 @@ export default function UserHomePage() {
 
   return (
     <AppLayout>
-      <div className="w-full max-w-lg bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        {/* Header */}
-        <div className="flex items-center justify-center mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
+      <div className='bg-white w-full fixed top-0 start-0 h-18 p-4 flex items-center justify-between'>
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+
+        <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
+
+        <div className='flex items-center justify-center'>
+            <span className='pe-2'>{user.username}</span>
+            <UserCircleIcon className='w-8 h-8' />
         </div>
-
-
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-gray-800">
-            Hello, {user.username}
-          </h1>
-          
-          <button onClick={handleLogout}>
-            Logout
-          </button>
+      </div>
+   
+      <div className="mt-20 w-full max-w-lg bg-white rounded-xl shadow-md border border-gray-200">
+        {/* Items list */}
+        <div className="space-y-2">
+          {fetching ? (
+            <p className="text-center text-gray-500">Loading...</p>
+          ) : items.length === 0 ? (
+            <p className="text-center text-gray-500">No entries yet.</p>
+          ) : (
+            <ul className="max-h-80 overflow-auto divide-y px-5">
+              {items.map((item) => (
+                <li key={item.id} className={`p-2 rounded-lg mt-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
+                  <div>
+                    <span className="text-gray-800">{item.content}</span>
+                  </div>
+                  <div className='flex justify-between items-center'>
+                    <div>
+                      <span className="text-sm text-gray-500">
+                        ({new Date(item.created_at).toLocaleString()})
+                      </span>
+                    </div>
+                    {item.user.username == user.username ? (
+                      <button
+                        onClick={() => openModal(item.id)}
+                        className="text-cyan-500 hover:text-cyan-700 p-1 rounded transition"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    ) : (
+                        <span className="text-sm text-gray-500">{item.user.username}</span>
+                    )}
+                  </div>
+        
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Submission form */}
-        <form onSubmit={handleSubmit} className="mb-6">
+        <form onSubmit={handleSubmit} className="m-2">
           {error && (
             <div className="mb-3 text-red-700 bg-red-100 px-3 py-2 rounded">
               {error}
@@ -222,7 +256,7 @@ export default function UserHomePage() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-r-md transition disabled:opacity-50"
+              className="flex items-center bg-cyan-400 hover:bg-cyan-500 text-white px-4 rounded-r-md transition disabled:opacity-50"
             >
               {submitting ? (
                 <svg
@@ -251,43 +285,6 @@ export default function UserHomePage() {
             </button>
           </div>
         </form>
-
-        {/* Items list */}
-        <div className="space-y-2">
-          {fetching ? (
-            <p className="text-center text-gray-500">Loading...</p>
-          ) : items.length === 0 ? (
-            <p className="text-center text-gray-500">No entries yet.</p>
-          ) : (
-            <ul className="max-h-64 overflow-auto divide-y px-5">
-              {items.map((item) => (
-                <li key={item.id} className={`p-2 rounded-lg mb-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
-                  <div>
-                    <span className="text-gray-800">{item.content}</span>
-                  </div>
-                  <div className='flex justify-between items-center'>
-                    <div>
-                      <span className="text-sm text-gray-500">
-                        ({new Date(item.created_at).toLocaleString()})
-                      </span>
-                    </div>
-                    {item.user.username == user.username ? (
-                      <button
-                        onClick={() => openModal(item.id)}
-                        className="text-cyan-500 hover:text-cyan-700 p-1 rounded transition"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    ) : (
-                        <span className="text-sm text-gray-500">{item.user.username}</span>
-                    )}
-                  </div>
-        
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
       </div>
 
       <ConfirmModal
