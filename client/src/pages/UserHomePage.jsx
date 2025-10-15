@@ -176,59 +176,23 @@ export default function UserHomePage() {
 
   return (
     <AppLayout>
-      <div className='bg-white w-full fixed top-0 start-0 h-18 p-4 flex items-center justify-between'>
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-
-        <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
-
-        <div className='flex items-center justify-center'>
-            <span className='pe-2'>{user.username}</span>
-            <UserCircleIcon className='w-8 h-8' />
-        </div>
-      </div>
-   
-      <div className="mt-20 w-full max-w-lg bg-white rounded-xl shadow-md border border-gray-200">
+      <div className="w-full max-w-lg bg-white rounded-xl shadow-md border mx-4 border-gray-200">
         {/* Items list */}
-        <div className="space-y-2">
-          {fetching ? (
-            <p className="text-center text-gray-500">Loading...</p>
-          ) : items.length === 0 ? (
-            <p className="text-center text-gray-500">No entries yet.</p>
-          ) : (
-            <ul className="max-h-80 overflow-auto divide-y px-5">
-              {items.map((item) => (
-                <li key={item.id} className={`p-2 rounded-lg mt-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
-                  <div>
-                    <span className="text-gray-800">{item.content}</span>
-                  </div>
-                  <div className='flex justify-between items-center'>
-                    <div>
-                      <span className="text-sm text-gray-500">
-                        ({new Date(item.created_at).toLocaleString()})
-                      </span>
-                    </div>
-                    {item.user.username == user.username ? (
-                      <button
-                        onClick={() => openModal(item.id)}
-                        className="text-cyan-500 hover:text-cyan-700 p-1 rounded transition"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    ) : (
-                        <span className="text-sm text-gray-500">{item.user.username}</span>
-                    )}
-                  </div>
-        
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className='h-[60px] p-4 flex items-center justify-between'>
+            <button onClick={handleLogout}>
+              Logout
+            </button>
+
+            <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
+
+            <div className='flex items-center justify-center'>
+                <span className='pe-2'>{user.username}</span>
+                <UserCircleIcon className='w-8 h-8' />
+            </div>
         </div>
 
-        {/* Submission form */}
-        <form onSubmit={handleSubmit} className="m-2">
+                {/* Submission form */}
+        <form onSubmit={handleSubmit} className="h-[100px] mx-2 grid items-center">
           {error && (
             <div className="mb-3 text-red-700 bg-red-100 px-3 py-2 rounded">
               {error}
@@ -285,6 +249,42 @@ export default function UserHomePage() {
             </button>
           </div>
         </form>
+
+        <div className="space-y-2">
+          {fetching ? (
+            <p className="text-center text-gray-500">Loading...</p>
+          ) : items.length === 0 ? (
+            <p className="text-center text-gray-500">No entries yet.</p>
+          ) : (
+            <ul className="max-h-[calc(100vh-200px)] overflow-auto divide-y px-5">
+              {items.map((item) => (
+                <li key={item.id} className={`p-2 rounded-lg mb-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
+                  <div>
+                    <span className="text-gray-800">{item.content}</span>
+                  </div>
+                  <div className='flex justify-between items-center'>
+                    <div>
+                      <span className="text-sm text-gray-500">
+                        ({new Date(item.created_at).toLocaleString()})
+                      </span>
+                    </div>
+                    {item.user.username == user.username ? (
+                      <button
+                        onClick={() => openModal(item.id)}
+                        className="text-cyan-500 hover:text-cyan-700 p-1 rounded transition"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    ) : (
+                        <span className="text-sm text-gray-500">{item.user.username}</span>
+                    )}
+                  </div>
+        
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <ConfirmModal
