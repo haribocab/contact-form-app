@@ -251,7 +251,7 @@ export default function UserHomePage() {
           ) : items.length === 0 ? (
             <p className="text-center text-gray-500">No entries yet.</p>
           ) : (
-            <ul className="max-h-[calc(100vh-140px)] overflow-auto divide-y px-5">
+            <ul className="max-h-[calc(100dvh-140px)] overflow-auto divide-y px-5">
               {items.map((item) => (
                 <li key={item.id} className={`p-2 rounded-lg mb-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
                   <div>
