@@ -181,7 +181,7 @@ export default function UserHomePage() {
 
   return (
     <AppLayout>
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-md border mx-2 border-gray-200">
+      <div className="w-full max-w-lg bg-white rounded-xl shadow-md border border-gray-200">
         {/* Items list */}
           <div className='h-[60px] px-4 flex items-center justify-between'>
             <button onClick={handleLogout}>
