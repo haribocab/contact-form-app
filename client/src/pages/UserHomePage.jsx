@@ -7,6 +7,7 @@ import { logout } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from '../components/ConfirmModal'
 import useAuthCheck from '../hooks/useAuthCheck';
+import { toast } from 'react-toastify';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const socketBaseUrl = import.meta.env.VITE_API_BASE;
@@ -113,6 +114,7 @@ export default function UserHomePage() {
     setError('');
     if (!content.trim()) {
       setError('Message cannot be empty.');
+      toast.error('Message cannot be empty.');
       return;
     }
     setSubmitting(true);
@@ -131,12 +133,14 @@ export default function UserHomePage() {
       }
       const data = await res.json();
       setResultMessage(`Submitted: ${data.content}`);
+      toast.success(`Submitted: ${data.content}`);
       setContent('');
       fetchItems();
       // socketRef.current.emit('newEntry', data);
     } catch (err) {
       console.error(err);
       setError('Submission failed.');
+      toast.error(err.message || 'Submission failed.');
     } finally {
       setSubmitting(false);
     }
@@ -176,9 +180,9 @@ export default function UserHomePage() {
 
   return (
     <AppLayout>
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-md border mx-4 border-gray-200">
+      <div className="w-full max-w-lg bg-white rounded-xl shadow-md border mx-2 border-gray-200">
         {/* Items list */}
-          <div className='h-[60px] p-4 flex items-center justify-between'>
+          <div className='h-[60px] px-4 flex items-center justify-between'>
             <button onClick={handleLogout}>
               Logout
             </button>
@@ -191,18 +195,8 @@ export default function UserHomePage() {
             </div>
         </div>
 
-                {/* Submission form */}
-        <form onSubmit={handleSubmit} className="h-[100px] mx-2 grid items-center">
-          {error && (
-            <div className="mb-3 text-red-700 bg-red-100 px-3 py-2 rounded">
-              {error}
-            </div>
-          )}
-          {resultMessage && (
-            <div className="mb-3 text-green-700 bg-green-100 px-3 py-2 rounded">
-              {resultMessage}
-            </div>
-          )}
+        {/* Submission form */}
+        <form onSubmit={handleSubmit} className="h-[60px] mx-2 grid items-center">
           <div className="flex">
             <div className="relative flex-grow">
               <InboxIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -256,7 +250,7 @@ export default function UserHomePage() {
           ) : items.length === 0 ? (
             <p className="text-center text-gray-500">No entries yet.</p>
           ) : (
-            <ul className="max-h-[calc(100vh-200px)] overflow-auto divide-y px-5">
+            <ul className="max-h-[calc(100vh-140px)] overflow-auto divide-y px-5">
               {items.map((item) => (
                 <li key={item.id} className={`p-2 rounded-lg mb-4 shadow-md ${item.user.username == user.username ? 'bg-cyan-100 ms-20' : 'bg-gray-100 me-20'}`}>
                   <div>
