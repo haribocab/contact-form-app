@@ -22,7 +22,7 @@ export default function UserHomePage() {
   const [deleteId, setDeleteId] = useState(null);
 
   const [content, setContent] = useState('');
-  const [resultMessage, setResultMessage] = useState('');
+  // const [resultMessage, setResultMessage] = useState('');
   const [items, setItems] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -110,7 +110,7 @@ export default function UserHomePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setResultMessage('');
+    // setResultMessage('');
     setError('');
     if (!content.trim()) {
       setError('Message cannot be empty.');
@@ -132,7 +132,7 @@ export default function UserHomePage() {
         throw new Error(errData.error || `Submit error: ${res.status}`);
       }
       const data = await res.json();
-      setResultMessage(`Submitted: ${data.content}`);
+      // setResultMessage(`Submitted: ${data.content}`);
       toast.success(`Submitted: ${data.content}`);
       setContent('');
       fetchItems();
@@ -169,7 +169,8 @@ export default function UserHomePage() {
         throw new Error(errData.error || `Delete error: ${res.status}`);
       }
       const data = await res.json();
-      setResultMessage(data.message);
+      // setResultMessage(data.message);
+      toast.success(data.message);
       fetchItems();
       // socketRef.current.emit('entryDeleted', deleteId);
     } catch (err) {
