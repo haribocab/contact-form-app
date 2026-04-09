@@ -12,7 +12,7 @@ export default function useAuthCheck() {
 
     try {
       const { exp } = jwtDecode(token);
-      const now = Date.now() / 1000; // 現在時刻（秒）
+      const now = Date.now() / 1000;
       if (exp < now) {
         console.warn('Token expired, logging out...');
         localStorage.removeItem('token');

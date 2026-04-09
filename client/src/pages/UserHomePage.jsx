@@ -29,7 +29,7 @@ export default function UserHomePage() {
 
   const token = localStorage.getItem('token');
 
-  // 👤 ユーザー情報取得
+  // Fetch User
   const fetchUser = useCallback(async () => {
     if (!token) return;
     try {
@@ -44,7 +44,7 @@ export default function UserHomePage() {
     }
   }, [token]);
 
-  // 💬 アイテム取得
+  // Fetsch Items
   const fetchItems = useCallback(async () => {
     if (!token) return;
     setFetching(true);
@@ -68,7 +68,7 @@ export default function UserHomePage() {
     fetchItems();
   }, [fetchUser, fetchItems]);
 
-  // ✉️ 投稿
+  // Send Message
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -93,7 +93,7 @@ export default function UserHomePage() {
       const data = await res.json();
       setContent('');
       setSnackbarMessage(`Submitted: ${data.content}`);
-      fetchItems(); // 更新
+      fetchItems();
     } catch (err) {
       console.error(err);
       setSnackbarMessage(err.message || 'Submission failed.');
@@ -102,7 +102,7 @@ export default function UserHomePage() {
     }
   };
 
-  // 🗑 削除
+  // Delate Message
   const confirmDelete = async () => {
     setShowModal(false);
     try {
@@ -116,14 +116,14 @@ export default function UserHomePage() {
       }
       const data = await res.json();
       setSnackbarMessage(data.message);
-      fetchItems(); // 更新
+      fetchItems();
     } catch (err) {
       console.error(err);
       setSnackbarMessage('Deletion failed.');
     }
   };
 
-  // 🔚 ログアウト
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(logout());
@@ -134,7 +134,7 @@ export default function UserHomePage() {
     <AppLayout>
       <div className="w-full max-w-lg bg-white rounded-xl shadow-md border border-gray-200 relative">
 
-        {/* ヘッダー */}
+        {/* Header */}
         <div className='h-[60px] px-4 flex items-center justify-between'>
           <button onClick={handleLogout}>Logout</button>
           <h1 className="text-xl font-semibold text-gray-800">Messages</h1>
@@ -144,7 +144,7 @@ export default function UserHomePage() {
           </div>
         </div>
 
-        {/* 入力フォーム */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="h-[60px] mx-2 grid items-center">
           <div className="flex">
             <div className="relative flex-grow">
@@ -175,9 +175,8 @@ export default function UserHomePage() {
           </div>
         </form>
 
-        {/* メッセージリスト */}
+        {/* Message List */}
         <div className="relative">
-          {/* 🔄 Loadingオーバーレイ */}
           {fetching && (
             <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10">
               <p className="text-gray-500">Loading...</p>
@@ -226,7 +225,7 @@ export default function UserHomePage() {
           )}
         </div>
 
-        {/* 削除確認モーダル */}
+        {/* Confirm Modal */}
         <ConfirmModal
           isOpen={showModal}
           onRequestClose={() => setShowModal(false)}
@@ -235,7 +234,7 @@ export default function UserHomePage() {
           <h2>Are you sure you want to delete this entry?</h2>
         </ConfirmModal>
 
-        {/* 🔔 WhatsApp風通知 */}
+        {/* Allert */}
         <Snackbar
           message={snackbarMessage}
           onClose={() => setSnackbarMessage('')}

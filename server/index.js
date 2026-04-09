@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const http = require('http');  // 追加
+const http = require('http');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { Server } = require('socket.io'); // 追加
+const { Server } = require('socket.io');
 
 const app = express();
 
@@ -15,9 +15,9 @@ const REACT_ORIGIN =  process.env.REACT_ORIGIN || 'http://localhost:5173';
 
 // Middlewares
 app.use(cors({
-  origin: REACT_ORIGIN, // React の URL
-  methods: ['GET', 'POST', 'DELETE'],        // 必要に応じて追加
-  credentials: true                // Cookie を使う場合のみ必要
+  origin: REACT_ORIGIN,
+  methods: ['GET', 'POST', 'DELETE'],
+  credentials: true
 }));
 
 app.use(express.json());
@@ -30,10 +30,10 @@ app.get('/', (req, res) => {
   res.send('API is working!');
 });
 
-// Expressアプリをhttpサーバーでラップ
+// HTTP Server
 const server = http.createServer(app);
 
-// Socket.IOサーバー作成＆設定
+// Create Socket.IO Server
 const io = new Server(server, {
   cors: {
     origin: REACT_ORIGIN,
@@ -56,7 +56,7 @@ io.use((socket, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    socket.user = decoded; // 必要なら socket.user に情報追加
+    socket.user = decoded;
     next();
   } catch (err) {
     next(new Error("Invalid token"));
@@ -73,27 +73,24 @@ io.on('connection', (socket) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    socket.user = decoded; // 必要なら後続の処理で使えるようにする
+    socket.user = decoded;
     console.log('✅ Authenticated socket:', decoded.userid);
   } catch (err) {
     console.log('❌ Invalid token. Disconnecting...');
     return socket.disconnect();
   }
 
-  // 通常のイベント登録はここ
   socket.on('newEntry', (entryData) => {
     console.log('New entry from:', socket.user?.userid || socket.id);
 
-    // 全ての接続クライアントに通知
     io.emit('entryCreated', entryData);
   });
 
   socket.on('entryDeleted', (entryId) => {
-    io.emit('entryDeleted', entryId); // 全ユーザーに削除IDを送信
+    io.emit('entryDeleted', entryId);
   });
 });
 
-// server.listenで起動（app.listenは使わない）
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
