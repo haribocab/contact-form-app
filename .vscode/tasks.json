@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start React App",
+      "label": "Start Client (React App)",
       "type": "shell",
       "command": "npm run dev",
       "options": {
@@ -11,20 +11,11 @@
       "problemMatcher": []
     },
     {
-      "label": "Start Server (Node Server API: old)",
-      "type": "shell",
-      "command": "node index.js",
-      "options": {
-        "cwd": "${workspaceFolder}/server"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Start Api (Laravel API)",
+      "label": "Start Server (Laravel API)",
       "type": "shell",
       "command": "php artisan serve",
       "options": {
-        "cwd": "${workspaceFolder}/laravel"
+        "cwd": "${workspaceFolder}/server"
       },
       "problemMatcher": []
     }
