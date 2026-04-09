@@ -1,3 +1,3 @@
-the server directory is a api with node
+the client directory is a app with react
 
-the api directory is a api with laravel
+the server directory is a api with laravel
