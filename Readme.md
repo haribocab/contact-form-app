@@ -6,9 +6,9 @@ Users can log in to the application and send messages after authentication.
 
 Project Structure
 
-├── client/    Frontend application built with React
+├── client/   # Frontend application built with React
 
-├── server/    Backend API built with Laravel
+├── server/   # Backend API built with Laravel
 
 └── README.md
 
