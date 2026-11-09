@@ -1,4 +1,4 @@
-Messaging App
+# Messaging App
 
 A full-stack messaging application built with React and Laravel.
 
@@ -9,3 +9,17 @@ Project Structure
 ├── client/    # Frontend application built with React
 ├── server/    # Backend API built with Laravel
 └── README.md
+
+## Database Setup (Docker)
+
+To create and start the database locally, navigate to the server directory and run:
+
+`docker compose --env-file .env up -d`
+
+## JWT Secret Configuration
+
+The application uses JWT for authentication.
+
+Generate a JWT secret key by running:
+
+`php artisan jwt:secret`
