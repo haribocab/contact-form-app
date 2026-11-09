@@ -141,6 +141,10 @@ export default function UserHomePage() {
     navigate('/login');
   };
 
+  const handleSnackbarClose = useCallback(() => {
+    setSnackbarMessage('');
+  }, []);
+
   return (
     <AppLayout>
       <div className="w-full max-w-lg bg-white rounded-xl shadow-md border border-gray-200 relative">
@@ -248,7 +252,7 @@ export default function UserHomePage() {
         {/* Allert */}
         <Snackbar
           message={snackbarMessage}
-          onClose={() => setSnackbarMessage('')}
+          onClose={handleSnackbarClose}
           duration={3000}
         />
       </div>
