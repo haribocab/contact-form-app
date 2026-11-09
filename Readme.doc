@@ -1,3 +1,11 @@
-the client directory is a app with react
+Messaging App
 
-the server directory is a api with laravel
+A full-stack messaging application built with React and Laravel.
+
+Users can log in to the application and send messages after authentication.
+
+Project Structure
+
+├── client/    # Frontend application built with React
+├── server/    # Backend API built with Laravel
+└── README.md
