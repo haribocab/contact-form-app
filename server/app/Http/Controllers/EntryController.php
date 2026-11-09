@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Events\EntryCreated;
+// use App\Events\EntryCreated;
 
 class EntryController extends Controller
 {
@@ -21,7 +21,7 @@ class EntryController extends Controller
             'user_id' => $user->id,
         ])->load('user:id,username');
 
-        broadcast(new EntryCreated($entry))->toOthers();
+        // broadcast(new EntryCreated($entry))->toOthers();
 
         return response()->json($entry, 201);
     }

@@ -47,7 +47,7 @@ export default function UserHomePage() {
   // Fetsch Items
   const fetchItems = useCallback(async () => {
     if (!token) return;
-    setFetching(true);
+    if (!hasLoaded) setFetching(true);
     try {
       const res = await fetch(`${apiUrl}/entries`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -67,6 +67,17 @@ export default function UserHomePage() {
     fetchUser();
     fetchItems();
   }, [fetchUser, fetchItems]);
+
+  // Check for new messages every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        fetchItems();
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [fetchItems]);
 
   // Send Message
   const handleSubmit = async (e) => {
